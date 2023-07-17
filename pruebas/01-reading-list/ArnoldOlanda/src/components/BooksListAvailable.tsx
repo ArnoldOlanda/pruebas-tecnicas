@@ -1,26 +1,27 @@
+import { BookItem } from "../interfaces";
+import { useAppDispatch } from "../store/hooks";
+import { addToFavorites } from "../store/slices/books.slice";
 import { BookListItem } from "./BookListItem";
 
 interface Props {
-  library: {
-    book: {
-      title: string;
-      pages: number;
-      genre: string;
-      cover: string;
-      ISBN: string;
-      synopsis: string;
-      year: number;
-      author: { name: string; otherBooks: string[] };
-    };
-  }[];
+    library: BookItem[];
 }
 
 export const BooksListAvailable = ({ library }: Props) => {
-  return (
-    <div className="container grid grid-cols-3 grid-rows-4 grid-flow-row gap-y-10 ">
-      {library.map(({ book }) => (
-        <BookListItem key={book.ISBN} book={book} />
-      ))}
-    </div>
-  );
+    const dispatch = useAppDispatch();
+    const onClickItem = (name: string) => {
+        dispatch(addToFavorites(name));
+    };
+
+    return (
+        <div className="w-2/3 grid grid-cols-4 grid-rows-4 grid-flow-row gap-y-10">
+            {library.map(({ book }) => (
+                <BookListItem
+                    key={book.ISBN}
+                    book={book}
+                    onClick={onClickItem}
+                />
+            ))}
+        </div>
+    );
 };
