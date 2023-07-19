@@ -19,6 +19,12 @@ export const counterSlice = createSlice({
     // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
+        setBooks: (state, { payload }: PayloadAction<BookItem[]>) => {
+            state.books = payload;
+        },
+        setFavorites: (state, { payload }: PayloadAction<BookItem[]>) => {
+            state.favorites = payload;
+        },
         addToFavorites: (state, { payload }: PayloadAction<string>) => {
             const book = state.books.find(({ book }) => book.title === payload);
             state.favorites.push(book!);
@@ -42,6 +48,7 @@ export const counterSlice = createSlice({
     },
 });
 
-export const { addToFavorites, removeFromFavorites } = counterSlice.actions;
+export const { setBooks, setFavorites, addToFavorites, removeFromFavorites } =
+    counterSlice.actions;
 
 export default counterSlice.reducer;
